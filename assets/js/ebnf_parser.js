@@ -1,3 +1,8 @@
+/**
+ * @param {rule}        rule       rule of which the non_terminals are taken
+ * @param {language}    language.  programming language
+ * this function returns an array of a given rule's non-terminal production rules.
+ */
 export function get_non_terminals(rule, language) {
     const filePath = `../../EBNF/${language}.ebnf`;
 
@@ -10,7 +15,8 @@ export function get_non_terminals(rule, language) {
         })
         .then(ebnfContent => {
             // Constructing the regular expression using RegExp constructor
-            const regex = new RegExp(`<${rule}>\\s*::=\\s*((?:<[^>]+>\\s*\\|?\\s*)+)`, 'gm');
+            const regex = new RegExp(`<${rule}>\\s*::=\\s*((?:<[^>]+>\\s*\\|?\\s*)+)[\\r\\n]+`, 'gm');
+
             const stmts = [];
             let match;
 
@@ -23,4 +29,8 @@ export function get_non_terminals(rule, language) {
             return stmts;
         })
         .catch(error => console.error('Error fetching or parsing EBNF file:', error));
+}
+
+export function get_production_rule(rule, language) {
+    //TODO
 }

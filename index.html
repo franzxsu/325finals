@@ -138,76 +138,40 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive" id="myTable">
-                                        <table class="table table-striped table-sm table-bordered">
+                                        <table class="table table-striped table-sm table-bordered" id="statementsTable">
                                             <thead>
                                                 <tr>
                                                     <th>STATEMENT</th>
                                                     <th class="text-center" style="width: 50px;">ACTION</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="tableBody">
                                                 <tr>
                                                     <td style="cursor: pointer;" class="statement-cell">
-                                                        <!-- Use a select element instead of plain text -->
-                                                        <select class="form-select form-select-sm no-highlight" style="width: auto; cursor: pointer;">
+                                                        <select class="form-select form-select-sm no-highlight statement-selects" style="width: auto; cursor: pointer;">
                                                             <option selected>Select a statement</option>
-                                                            <option>Option 1</option>
-                                                            <option>Option 2</option>
-                                                            <option>Option 3</option>
                                                         </select>
                                                     </td>
                                                     <td class="text-center">
                                                         <a class="del-row"><i class="fas fa-trash" style="font-size: 20px; cursor: pointer;"></i></a>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="statement-cell">
-                                                        <!-- Use a select element instead of plain text -->
-                                                        <select class="form-select form-select-sm" style="width: auto;">
-                                                            <option selected>Select a statement</option>
-                                                            <option>Option 1</option>
-                                                            <option>Option 2</option>
-                                                            <option>Option 3</option>
-                                                        </select>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="statement-cell">
-                                                        <!-- Use a select element instead of plain text -->
-                                                        <select class="form-select form-select-sm" style="width: auto;">
-                                                            <option selected>Select a statement</option>
-                                                            <option>Option 1</option>
-                                                            <option>Option 2</option>
-                                                            <option>Option 3</option>
-                                                        </select>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
-                                                    </td>
-                                                </tr>
+
                                             </tbody>
-                                            
                                         </table>
-                                        
                                         <!-- Template for collapsible content -->
-                                        <div class="collapse" id="collapseExample">
-                                            <div class="card card-body">
-                                                <code>
-                                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                                                </code>
+                                        <div id="COLLAPSES">
+                                            <div class="collapse" id="collapseExample">
+                                                <div class="card card-body">
+                                                    <code>
+                                                    CODE EXAMPLE
+                                                    </code>
+                                                </div>
                                             </div>
                                         </div>
-                                        
-                                        <script>
-                                            
-                                        </script>
-                                        
-             
-                                    </div><button class="btn btn-primary" type="button">+ add statement</button>
-                                </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="button" id="addStatementBtn">+ add statement</button>
+                                </div>                                
                             </div>
                         </div>
                         <div class="col">
