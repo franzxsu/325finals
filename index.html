@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="./assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/fonts/fontawesome5-overrides.min.css">
+    <script src="./assets/js/index.js"></script>
 </head>
 
 <body id="page-top">
@@ -134,33 +135,55 @@
                                     <h6 class="text-primary fw-bold m-0">Program Canvas &lt;LANGUAGE&gt;</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="small fw-bold">Account setup<span class="float-end">Complete!</span></h4>
-                                    <div class="accordion" role="tablist" id="accordion-1">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1">STATEMENT - method_definition</button></h2>
-                                            <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1">
-                                                <div class="accordion-body">
-                                                    <p class="mb-0">def [TEXTINPUT] ( PARAMETERS ) [STATEMENTDROPDOWNULIT) end</p>
-                                                </div>
+                                    <div class="table-responsive" id="myTable">
+                                        <table class="table table-striped table-sm table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>STATEMENT</th>
+                                                    <th class="text-center" style="width: 50px;">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="statement-cell" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                                        Cell 1
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tr>
+                                                <td class="statement-cell" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                                    Cell 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="statement-cell" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                                    Cell 3
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                        <!-- Template for collapsible content -->
+                                        <div class="collapse" id="collapseExample">
+                                            <div class="card card-body">
+                                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
                                             </div>
                                         </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2">METHOD DECLARATION</button></h2>
-                                            <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1">
-                                                <div class="accordion-body">
-                                                    <p class="mb-0">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-3" aria-expanded="false" aria-controls="accordion-1 .item-3">DROP DOWN DAPAT ITO</button></h2>
-                                            <div class="accordion-collapse collapse item-3" role="tabpanel" data-bs-parent="#accordion-1">
-                                                <div class="accordion-body">
-                                                    <p class="mb-0">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><button class="btn btn-primary" type="button">Button</button>
+                                        
+                                        <script>
+                                            
+                                        </script>
+                                        
+             
+                                    </div><button class="btn btn-primary" type="button">+ add statement</button>
                                 </div>
                             </div>
                         </div>
