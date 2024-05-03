@@ -1,9 +1,7 @@
 import { get_non_terminals } from './ebnf_parser.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-  initializeStatementCells();
-  initializeDeleteIcons();
-  populateStatementSelect();
+
 });
 
 //ADD STATEMENT BUTTON
@@ -11,71 +9,19 @@ document.getElementById("addStatementBtn").addEventListener("click", function() 
     addNewStatementTable();
 });
 
-function initializeStatementCells() {
-  const statementCells = document.querySelectorAll('.statement-cell');
-  statementCells.forEach(cell => {
-    const selectElement = cell.querySelector('select');
-    selectElement.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
-
-    cell.addEventListener('click', toggleCollapsibleContent.bind(null, cell));
-  });
-}
-
-function toggleCollapsibleContent(cell) {
-  const collapseContent = document.getElementById('collapseExample');
-  collapseContent.classList.toggle('show');
-
-  const row = cell.parentElement;
-  const nextRow = row.nextElementSibling;
-
-  if (nextRow !== collapseContent.parentElement) {
-    if (collapseContent.parentElement) {
-      collapseContent.parentElement.removeChild(collapseContent);
-    }
-    row.insertAdjacentElement('afterend', collapseContent);
-  }
-}
-
-function initializeDeleteIcons() {
-  const deleteIcons = document.querySelectorAll('.del-row');
-  deleteIcons.forEach(icon => {
-    icon.addEventListener('click', () => {
-      const parentRow = icon.closest('tr');
-      parentRow.remove();
-    });
-  });
-}
-
-function populateStatementSelect() {
-  const selectElement = document.querySelector('.statement-selects');
-  get_non_terminals("statement", "ruby")
-    .then(statements => {
-      statements.forEach(statement => {
-        const option = document.createElement('option');
-        option.textContent = statement;
-        selectElement.appendChild(option);
-      });
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
-
 function addNewStatementTable() {
     // Generate a unique ID for the new row
     const uniqueID = "row_" + Math.random().toString(36).substr(2, 9);
-
+  
     // Create new table row
     const newRow = document.createElement('tr');
     newRow.id = uniqueID;
-
+  
     // Create statement cell
     const statementCell = document.createElement('td');
     statementCell.style.cursor = "pointer";
     statementCell.classList.add("statement-cell");
-
+  
     // Create select element
     const selectElement = document.createElement('select');
     selectElement.classList.add("form-select", "form-select-sm", "no-highlight", "statement-selects");
@@ -86,10 +32,13 @@ function addNewStatementTable() {
     defaultOption.selected = true;
     selectElement.appendChild(defaultOption);
     statementCell.appendChild(selectElement);
-
+  
     // Add event listener to statement cell for collapsible
-    statementCell.addEventListener('click', toggleCollapsibleContent.bind(null, statementCell));
-
+    statementCell.addEventListener('click', function() {
+      toggleCollapsibleContent(newRow.id);
+      console.log("asd");
+    });
+  
     // Create delete button cell
     const deleteCell = document.createElement('td');
     deleteCell.classList.add("text-center");
@@ -101,53 +50,75 @@ function addNewStatementTable() {
     deleteIcon.style.cursor = "pointer";
     deleteButton.appendChild(deleteIcon);
     deleteCell.appendChild(deleteButton);
-
+  
     // Add event listener to delete icon
     deleteIcon.addEventListener('click', function() {
-        const rowID = newRow.id;
-        const collapsibleID = rowID + "_collapse";
-        const rowToRemove = document.getElementById(rowID);
-        const collapsibleToRemove = document.getElementById(collapsibleID);
-        if (rowToRemove && collapsibleToRemove) {
-            rowToRemove.remove();
-            collapsibleToRemove.remove();
-        }
+      const rowToRemove = deleteIcon.closest('tr');
+      const rowID = rowToRemove.id;
+      const collapsibleID = `${rowID}_collapsible`;
+      const collapsibleElement = document.getElementById(collapsibleID);
+  
+      if (collapsibleElement) {
+        collapsibleElement.remove();
+      }
+  
+      rowToRemove.remove();
     });
-
+  
     // Append cells to the row
     newRow.appendChild(statementCell);
     newRow.appendChild(deleteCell);
-
+  
     // Append row to table body
     const tableBody = document.getElementById('tableBody');
     tableBody.appendChild(newRow);
-
+  
+    // Create collapsible element if it doesn't exist
+    const collapsible = newRow.nextElementSibling;
+    if (!collapsible || !collapsible.classList.contains('collapsible')) {
+      createCollapsible(uniqueID);
+    }
+  
     // Populate select with options
     get_non_terminals("statement", "ruby")
-        .then(statements => {
-            statements.forEach(statement => {
-                const option = document.createElement('option');
-                option.textContent = statement;
-                selectElement.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
+      .then(statements => {
+        statements.forEach(statement => {
+          const option = document.createElement('option');
+          option.textContent = statement;
+          selectElement.appendChild(option);
         });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+  
+  function toggleCollapsibleContent(id) {
+    const collapsibleID = `${id}_collapsible`;
+    const collapsibleElement = document.getElementById(collapsibleID);
+  
+    if (collapsibleElement) {
+      if (collapsibleElement.style.display === 'none') {
+        collapsibleElement.style.display = 'table-row';
+      } else {
+        collapsibleElement.style.display = 'none';
+      }
+    }
+  }
+  
+  function createCollapsible(uniqueID) {
+    const row = document.getElementById(uniqueID);
+    const collapsible = document.createElement('tr');
+    collapsible.id = `${uniqueID}_collapsible`;
+    collapsible.classList.add('collapsible');
+    collapsible.style.display = 'none';
+    const cell = document.createElement('td');
+    cell.colSpan = row.cells.length;
+    cell.innerHTML = '<code>' + uniqueID +' </code>';
+    collapsible.appendChild(cell);
+    row.parentNode.insertBefore(collapsible, row.nextSibling);
+  }
 
-    // Create collapsible
-    const collapsibleDiv = document.createElement('div');
-    collapsibleDiv.id = uniqueID + "_collapse";
-    collapsibleDiv.classList.add("collapse");
-    collapsibleDiv.innerHTML = `
-        <div class="card card-body">
-            <code>
-                CODE EXAMPLE
-            </code>
-        </div>
-    `;
-
-    // Append collapsible to COLLAPSES div
-    const collapsesDiv = document.getElementById('COLLAPSES');
-    collapsesDiv.appendChild(collapsibleDiv);
+function updateOutput(){
+    //todo
 }

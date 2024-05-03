@@ -1,6 +1,6 @@
 <program> ::= { <statement> }
 
-<statement> ::= <print_statement> | <variable_declaration> | <arithmetic_operation> | <string_operation>| <array_operation>| <hash_operation>| <conditional_statement>| <loop_statement>| <method_definition>| <class_definition>
+<statement> ::= <import_statement> | <print_statement> | <variable_declaration> | <arithmetic_operation> | <string_operation>| <array_operation>| <hash_operation>| <conditional_statement>| <loop_statement>| <method_definition>| <class_definition>
 
 
 <print_statement> ::= puts <expression> ;
