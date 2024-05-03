@@ -159,10 +159,10 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="text-primary fw-bold m-0"></h6>
-                                    <h6 class="text-primary fw-bold m-0">asdads</h6>
+                                    <h6 class="text-primary fw-bold m-0">Structure builder</h6>
                                 </div>
-                                <div class="card-body">
-                                    <h4 class="small fw-bold">def dropdowndito</h4>
+                                <div class="card-body bg-dark">
+                                    <h4 class="small fw-bold text-white" id="structInputBox"></h4>
                                 </div>
                             </div>
                         </div>
@@ -173,9 +173,9 @@
                         <div class="col">
                             <div class="card shadow mb-5">
                                 <div class="card-header py-3">
-                                    <p class="text-primary m-0 fw-bold">OUTPUT FILE &lt;LANG&gt;.&lt;fileextension&gt;</p>
+                                    <p class="text-primary m-0 fw-bold">file.rb</p>
                                 </div>
-                                <div class="card-body bg-dark"><code id="codebase"><br>require 'json'<br>require 'open-uri'<br><br>def fetch_exchange_rates(base_currency)<br> url = "https://api.exchangeratesapi.io/latest?base=#{base_currency}"<br> response = URI.open(url).read<br> exchange_rates = JSON.parse(response)<br> return exchange_rates['rates']<br>end<br><br>def convert_currency(amount, from_currency, to_currency)<br> rates = fetch_exchange_rates(from_currency)<br> if rates.key?(to_currency)<br> converted_amount = amount * rates[to_currency]<br> return converted_amount.round(2)<br> else<br> puts "Conversion rate not available for #{to_currency}."<br> return nil<br> end<br>end<br><br>def main<br> puts "Welcome to Currency Converter"<br> print "Enter the amount: "<br> amount = gets.chomp.to_f<br><br> print "Enter the currency you're converting from (e.g., USD, EUR, GBP): "<br> from_currency = gets.chomp.upcase<br><br> print "Enter the currency you're converting to (e.g., USD, EUR, GBP): "<br> to_currency = gets.chomp.upcase<br><br> converted_amount = convert_currency(amount, from_currency, to_currency)<br> if converted_amount<br> puts "#{amount} #{from_currency} is equivalent to #{converted_amount} #{to_currency}."<br> else<br> puts "Failed to convert currency. Please try again."<br> end<br>end<br><br></code><button class="btn btn-primary" type="button">download file</button></div>
+                                <div class="card-body bg-dark text-primary"><code id="codebase">// created by Team Abella (c) 2024<br>// get started by pressing "add statement" above</code><br><button class="btn btn-primary" type="button">download file</button></div>
                             </div>
                         </div>
                     </div>

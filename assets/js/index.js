@@ -10,6 +10,7 @@ document.getElementById("addStatementBtn").addEventListener("click", function() 
 });
 
 function addNewStatementTable() {
+    updateOutput()
     // Generate a unique ID for the new row
     const uniqueID = "row_" + Math.random().toString(36).substr(2, 9);
   
@@ -21,7 +22,7 @@ function addNewStatementTable() {
     const statementCell = document.createElement('td');
     statementCell.style.cursor = "pointer";
     statementCell.classList.add("statement-cell");
-  
+    updateOutput()
     // Create select element
     const selectElement = document.createElement('select');
     selectElement.classList.add("form-select", "form-select-sm", "no-highlight", "statement-selects");
@@ -32,14 +33,16 @@ function addNewStatementTable() {
     defaultOption.selected = true;
     selectElement.appendChild(defaultOption);
     statementCell.appendChild(selectElement);
-
+    updateOutput()
     //remove event listener on select
     selectElement.addEventListener('click', function(event) {
         event.stopPropagation();
+        updateOutput()
       });
 
     //event listener on select
     selectElement.addEventListener('change', function() {
+        updateOutput()
         const rowID = newRow.id;
         const collapsibleID = `${rowID}_collapsible`;
         const collapsibleElement = document.getElementById(collapsibleID);
@@ -54,14 +57,17 @@ function addNewStatementTable() {
               console.error('Error fetching production rule:', error);
             });
         }
+        updateOutput()
       });
-
+      updateOutput()
     // Add event listener to statement cell for collapsible
     statementCell.addEventListener('click', function() {
       toggleCollapsibleContent(newRow.id);
       console.log("asd");
+      updateStructBuilder("<input> input")
+      updateOutput()
     });
-  
+
     // Create delete button cell
     const deleteCell = document.createElement('td');
     deleteCell.classList.add("text-center");
@@ -73,7 +79,7 @@ function addNewStatementTable() {
     deleteIcon.style.cursor = "pointer";
     deleteButton.appendChild(deleteIcon);
     deleteCell.appendChild(deleteButton);
-  
+
     // Add event listener to delete icon
     deleteIcon.addEventListener('click', function() {
       const rowToRemove = deleteIcon.closest('tr');
@@ -86,22 +92,23 @@ function addNewStatementTable() {
       }
   
       rowToRemove.remove();
+
     });
   
     // Append cells to the row
     newRow.appendChild(statementCell);
     newRow.appendChild(deleteCell);
-  
+
     // Append row to table body
     const tableBody = document.getElementById('tableBody');
     tableBody.appendChild(newRow);
-  
+
     // Create collapsible element if it doesn't exist
     const collapsible = newRow.nextElementSibling;
     if (!collapsible || !collapsible.classList.contains('collapsible')) {
       createCollapsible(uniqueID);
     }
-  
+
     // Populate select with options
     get_non_terminals("statement", "ruby")
       .then(statements => {
@@ -114,9 +121,11 @@ function addNewStatementTable() {
       .catch(error => {
         console.error('Error:', error);
       });
+
   }
   
   function toggleCollapsibleContent(id) {
+    updateOutput()
     const collapsibleID = `${id}_collapsible`;
     const collapsibleElement = document.getElementById(collapsibleID);
   
@@ -128,7 +137,7 @@ function addNewStatementTable() {
       }
     }
   }
-  
+
   function createCollapsible(uniqueID) {
     const row = document.getElementById(uniqueID);
     const collapsible = document.createElement('tr');
@@ -137,11 +146,45 @@ function addNewStatementTable() {
     collapsible.style.display = 'none';
     const cell = document.createElement('td');
     cell.colSpan = row.cells.length;
-    cell.innerHTML = '<code>' + '//please choose a statement...' + '</code>';
+    cell.innerHTML = '//please choose a statement...';
     collapsible.appendChild(cell);
     row.parentNode.insertBefore(collapsible, row.nextSibling);
+    updateOutput()
   }
 
-function updateOutput(){
+function updateOutput() {
+    var tdElements = document.querySelectorAll('td[colspan="2"]');
+    var outputString = "";
+
+    for (var i = 0; i < tdElements.length; i++) {
+        outputString += tdElements[i].innerHTML + '<br>';
+    }
+    
+    document.getElementById("codebase").innerHTML = outputString;
+}
+
+function updateStructBuilder(string) {
+    // Get the target element
+    var structInputBox = document.getElementById("structInputBox");
+
+    // Replace substrings enclosed within < and > with input elements
+    var replacedString = string.replace(/<([^>]+)>/g, function(match, group1) {
+        // Check if the substring contains only alphabets, digits, or underscores
+        var isExpression = /^[a-zA-Z0-9_]+$/.test(group1);
+        if (isExpression) {
+            return '<input type="text" class="form-control" value="' + group1 + '">';
+        } else {
+            // If it's not a valid expression, just return the original substring
+            return match;
+        }
+    });
+
+    // Update the content of the target element
+    structInputBox.innerHTML = replacedString;
+}
+
+function update_tabled(){
     //todo
 }
+
+
