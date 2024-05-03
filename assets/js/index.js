@@ -1,9 +1,5 @@
 import { get_non_terminals, get_production_rule } from './ebnf_parser.js';
 
-document.addEventListener('DOMContentLoaded', function() {
-
-});
-
 //ADD STATEMENT BUTTON
 document.getElementById("addStatementBtn").addEventListener("click", function() {
     addNewStatementTable();
@@ -62,11 +58,41 @@ function addNewStatementTable() {
       updateOutput()
     // Add event listener to statement cell for collapsible
     statementCell.addEventListener('click', function() {
-      toggleCollapsibleContent(newRow.id);
-      console.log("asd");
-      updateStructBuilder("<input> input")
-      updateOutput()
+        // Toggle collapsible content
+        toggleCollapsibleContent(newRow.id);
+        
+        // Log newRow.id to console
+        console.log(newRow.id);
+        
+        // Get the modified ID with '_collapsible'
+        var collapsibleId = newRow.id + '_collapsible';
+        
+        // Find the first element with the modified ID
+        var collapsibleElement = document.getElementById(collapsibleId);
+        
+        // Check if the collapsible element exists
+        if (collapsibleElement) {
+            // Find the td element with colspan="2" inside the collapsible element
+            var tdElement = collapsibleElement.querySelector('td[colspan="2"]');
+            
+            // Check if the td element exists
+            if (tdElement) {
+                // Get the innerHTML value of the td element
+                var innerHTMLValue = tdElement.innerHTML;
+                
+                // Print the innerHTML value
+                console.log(innerHTMLValue);
+                updateStructBuilder(newRow.id, innerHTMLValue);
+            }
+        }
+        
+        // Update struct builder
+        
+        
+        // Update output
+        updateOutput();
     });
+    
 
     // Create delete button cell
     const deleteCell = document.createElement('td');
@@ -162,29 +188,39 @@ function updateOutput() {
     
     document.getElementById("codebase").innerHTML = outputString;
 }
-
-function updateStructBuilder(string) {
-    // Get the target element
-    var structInputBox = document.getElementById("structInputBox");
-
-    // Replace substrings enclosed within < and > with input elements
-    var replacedString = string.replace(/<([^>]+)>/g, function(match, group1) {
-        // Check if the substring contains only alphabets, digits, or underscores
-        var isExpression = /^[a-zA-Z0-9_]+$/.test(group1);
-        if (isExpression) {
-            return '<input type="text" class="form-control" value="' + group1 + '">';
-        } else {
-            // If it's not a valid expression, just return the original substring
-            return match;
-        }
+function update_tabled(id, string){
+    console.log(id, string)
+    console.log('HIHIHI')
+}
+function updateStructBuilder(id = 0, string) {
+    const body = document.getElementById('structInputBox');
+    const regex = /&lt;([^&]+)&gt;/g; // Regular expression to match &lt;...&gt;
+    body.innerHTML = string.replace(regex, (_, capturedString) => {
+        return `<input type="text" data-expression="${capturedString}" />`;
     });
 
-    // Update the content of the target element
-    structInputBox.innerHTML = replacedString;
+    // Add event listener to the input boxes
+    const inputs = body.querySelectorAll('input[data-expression]');
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            const expression = input.getAttribute('data-expression');
+            inputListener(expression, input.value);
+        });
+    });
 }
 
-function update_tabled(){
-    //todo
+// Function to execute when input changes
+function inputListener(expression, value) {
+    // Your custom logic here
+    console.log("Input changed for expression", expression, ":", value);
 }
+
+
+
+
+
+
+
+
 
 
