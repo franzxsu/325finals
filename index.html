@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="./assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="./assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/fonts/fontawesome5-overrides.min.css">
-    <script src="./assets/js/index.js"></script>
+    <link rel="stylesheet" href="./assets/styles.css">
+    <script type="module" src="./assets/js/index.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -145,36 +147,57 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td class="statement-cell" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                                        Cell 1
+                                                    <td style="cursor: pointer;" class="statement-cell">
+                                                        <!-- Use a select element instead of plain text -->
+                                                        <select class="form-select form-select-sm no-highlight" style="width: auto; cursor: pointer;">
+                                                            <option selected>Select a statement</option>
+                                                            <option>Option 1</option>
+                                                            <option>Option 2</option>
+                                                            <option>Option 3</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="del-row"><i class="fas fa-trash" style="font-size: 20px; cursor: pointer;"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="statement-cell">
+                                                        <!-- Use a select element instead of plain text -->
+                                                        <select class="form-select form-select-sm" style="width: auto;">
+                                                            <option selected>Select a statement</option>
+                                                            <option>Option 1</option>
+                                                            <option>Option 2</option>
+                                                            <option>Option 3</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="statement-cell">
+                                                        <!-- Use a select element instead of plain text -->
+                                                        <select class="form-select form-select-sm" style="width: auto;">
+                                                            <option selected>Select a statement</option>
+                                                            <option>Option 1</option>
+                                                            <option>Option 2</option>
+                                                            <option>Option 3</option>
+                                                        </select>
                                                     </td>
                                                     <td class="text-center">
                                                         <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                            <tr>
-                                                <td class="statement-cell" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                                    Cell 2
-                                                </td>
-                                                <td class="text-center">
-                                                    <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="statement-cell" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                                                    Cell 3
-                                                </td>
-                                                <td class="text-center">
-                                                    <a class="del-row"><i class="fas fa-trash" style="font-size: 20px;"></i></a>
-                                                </td>
-                                            </tr>
+                                            
                                         </table>
                                         
                                         <!-- Template for collapsible content -->
                                         <div class="collapse" id="collapseExample">
                                             <div class="card card-body">
+                                                <code>
                                                 Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                                </code>
                                             </div>
                                         </div>
                                         

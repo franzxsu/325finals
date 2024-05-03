@@ -1,56 +1,76 @@
-<program> ::= { <statement> };
-<statement> ::= <print_statement>
-            | <variable_declaration>
-            | <arithmetic_operation>
-            | <string_operation>
-            | <array_operation>
-            | <hash_operation>
-            | <conditional_statement>
-            | <loop_statement>
-            | <method_definition>
-            | <class_definition>;
+<program> ::= { <statement> }
+
+<statement> ::= <print_statement> | <variable_declaration> | <arithmetic_operation> | <string_operation>| <array_operation>| <hash_operation>| <conditional_statement>| <loop_statement>| <method_definition>| <class_definition>
 
 <print_statement> ::= puts <expression> ;
 
 <variable_declaration> ::= <identifier> = <expression> ;
 
-<arithmetic_operation> ::= <identifier> = <numeric_expression> { ("+" | "-" | "*" | "/" | "%") <numeric_expression> };
+<arithmetic_operation> ::= <identifier> = <numeric_expression> { (+ | - | * | / | %) <numeric_expression> }
 
-<string_operation> ::= <identifier> = <expression> . ("upcase" | "downcase") ;
+<string_operation> ::= <identifier> = <expression> . (upcase | downcase) ;
 
-<array_operation> ::= <identifier> = '[' <expression> { "," <expression> } ']' ;
+<array_operation> ::= <identifier> = '[' <expression> { , <expression> } ']' ;
 
-<hash_operation> ::= <identifier> = '{' <string_literal> "=>" <expression> { "," <string_literal> "=>" <expression> } '}' ;
+<hash_operation> ::= <identifier> = '{' <string_literal> => <expression> { , <string_literal> => <expression> } '}' ;
 
-<conditional_statement> ::= "if" <condition> <statement> "end"
-                           | "if" <condition> <statement> "else" <statement> "end"
-                           | "if" <condition> <statement> "else" <conditional_statement> "end";
+<conditional_statement> ::= if <condition> <statement> end	
+                           | if <condition> <statement> else <statement> end
+                           | if <condition> <statement> else <conditional_statement> 'end'
 
-<loop_statement> ::= "while" <condition> <statement> "end"
-                   | "until" <condition> <statement> "end";
+<while_loop> ::= while <condition> do <statement> end ;
 
-<method_definition> ::= "def" <method_name> "(" { <parameter> { "," <parameter> } } ")" <statement> "end";
+<until_loop> ::= until <condition> do <statement> end ;
 
-<class_definition> ::= "class" <class_name> <statement> "end";
+<for_loop_range> ::= for <identifier> in <range> do <statement> end ;
 
-<expression> ::= <numeric_expression> | <string_literal> | <identifier>;
+<loop_statement> ::= loop <statement> end ;
 
-<condition> ::= <expression>;
+<method_definition> ::= def <identifier> '(' [<parameters>] ')' <statement> end ;
 
-<numeric_expression> ::= <number> { ("+" | "-" | "*" | "/" | "%") <number> };
 
-<identifier> ::= <letter> { <letter> | <digit> | "_" };
+<class_definition> ::= class <identifier> <class_body> end ;
 
-<number> ::= <digit> { <digit> };
+<class_body> ::= <attribute_declaration> { <method_definition> }
 
-<letter> ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
+<attribute_declaration> ::= attr_accessor ( <identifier> { , <identifier> } )* <identifier> ;
 
-<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+<expression> ::= <string_literal>
+             | <boolean_literal>
+             | <number_literal>
+             | <identifier>
+             | <numeric_expression>
+             | <array_operation>
+             | <hash_operation>
 
-<string_literal> ::= '"' { <character> } '"';
+<parameters> ::= <identifier> { ',' <identifier> }
 
-<method_name> ::= <identifier>;
+<condition> ::= <expression> (== | != | < | > | <= | >=) <expression>
+             | ! <condition>
+             | '(' <condition> ')'
+             | <condition> (&& | ||) <condition>
 
-<class_name> ::= <identifier>;
+<string_literal> ::= " { <character> } "
 
-<parameter> ::= <identifier>;
+<boolean_literal> ::= true | false
+
+<number_literal> ::= <digit>+
+
+<range> ::= <number_literal> .. <number_literal> ;
+
+<numeric_expression> ::= <number_literal>
+                      | <identifier>
+
+<identifier> ::= <letter> { <letter> | <digit> | '_' }
+
+<character> ::= <letter> | <digit> | <symbol> | <whitespace> | <special_character>
+
+<letter> ::= a | b | ... | z | A | B | ... | Z
+
+<digit> ::= 0 | 1 | ... | 9
+
+<symbol> ::= + | - | * | / | = | < | > | & | ‘|’ | @ | # | $ | % | ^ | ! | ? | ~ | `
+
+<whitespace> ::= ' ' | \t | \n | \r
+
+<special_character> ::= '(' | ')' | '[' | ']' | '{' | '}' | '"' | "'" | ',' | ';' | ':' | '.' | '_' | '-' | '|' | '\\' | '/' | '<' | '>'
