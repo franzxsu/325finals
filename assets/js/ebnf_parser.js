@@ -31,6 +31,28 @@ export function get_non_terminals(rule, language) {
         .catch(error => console.error('Error fetching or parsing EBNF file:', error));
 }
 
+/**
+ * @param {rule} rule
+ * @param {language} language
+ * This function returns the production rule string for a given rule
+ */
 export function get_production_rule(rule, language) {
-    //TODO
-}
+    const filePath = `../../EBNF/${language}.ebnf`;
+    return fetch(filePath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch EBNF file');
+        }
+        return response.text();
+      })
+      .then(ebnfContent => {
+        const regex = new RegExp(`${rule}\\s*::=(.*?)(?=[\\r\\n]|$)`, 'gm');
+        const match = regex.exec(ebnfContent);
+        if (match) {
+          return match[1].trim();
+        } else {
+          throw new Error(`Rule <${rule}> not found in EBNF file`);
+        }
+      })
+      .catch(error => console.error('Error fetching or parsing EBNF file:', error));
+  }

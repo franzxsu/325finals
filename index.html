@@ -19,13 +19,14 @@
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
             <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-                    <div class="sidebar-brand-text mx-3"><span>Brand</span></div>
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-file-code"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>buildr.js</span></div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-tachometer-alt"></i><span>RUBY</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="far fa-gem"></i><span>Ruby</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-user"></i><span>Julia</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="far fa-registered"></i><span>R Programming</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -128,7 +129,7 @@
                 </nav>
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">&lt;LANGUAGE&gt;</h3>
+                        <h3 class="text-dark mb-0">Ruby Programming Language</h3>
                     </div>
                     <div class="row">
                         <div class="col-lg-5 col-xl-8 col-xxl-7 offset-xl-0">
@@ -140,9 +141,9 @@
                                     <div class="table-responsive" id="myTable">
                                         <table class="table table-striped table-sm table-bordered" id="statementsTable">
                                             <thead>
-                                                <tr>
-                                                    <th>STATEMENT</th>
-                                                    <th class="text-center" style="width: 50px;">ACTION</th>
+                                                <tr class="bg-light text-dark">
+                                                    <th >Statement</th>
+                                                    <th class="text-center" style="width: 50px;">Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tableBody">
@@ -174,7 +175,7 @@
                                 <div class="card-header py-3">
                                     <p class="text-primary m-0 fw-bold">OUTPUT FILE &lt;LANG&gt;.&lt;fileextension&gt;</p>
                                 </div>
-                                <div class="card-body bg-dark"><code><br>require 'json'<br>require 'open-uri'<br><br>def fetch_exchange_rates(base_currency)<br> url = "https://api.exchangeratesapi.io/latest?base=#{base_currency}"<br> response = URI.open(url).read<br> exchange_rates = JSON.parse(response)<br> return exchange_rates['rates']<br>end<br><br>def convert_currency(amount, from_currency, to_currency)<br> rates = fetch_exchange_rates(from_currency)<br> if rates.key?(to_currency)<br> converted_amount = amount * rates[to_currency]<br> return converted_amount.round(2)<br> else<br> puts "Conversion rate not available for #{to_currency}."<br> return nil<br> end<br>end<br><br>def main<br> puts "Welcome to Currency Converter"<br> print "Enter the amount: "<br> amount = gets.chomp.to_f<br><br> print "Enter the currency you're converting from (e.g., USD, EUR, GBP): "<br> from_currency = gets.chomp.upcase<br><br> print "Enter the currency you're converting to (e.g., USD, EUR, GBP): "<br> to_currency = gets.chomp.upcase<br><br> converted_amount = convert_currency(amount, from_currency, to_currency)<br> if converted_amount<br> puts "#{amount} #{from_currency} is equivalent to #{converted_amount} #{to_currency}."<br> else<br> puts "Failed to convert currency. Please try again."<br> end<br>end<br><br></code><button class="btn btn-primary" type="button">download file</button></div>
+                                <div class="card-body bg-dark"><code id="codebase"><br>require 'json'<br>require 'open-uri'<br><br>def fetch_exchange_rates(base_currency)<br> url = "https://api.exchangeratesapi.io/latest?base=#{base_currency}"<br> response = URI.open(url).read<br> exchange_rates = JSON.parse(response)<br> return exchange_rates['rates']<br>end<br><br>def convert_currency(amount, from_currency, to_currency)<br> rates = fetch_exchange_rates(from_currency)<br> if rates.key?(to_currency)<br> converted_amount = amount * rates[to_currency]<br> return converted_amount.round(2)<br> else<br> puts "Conversion rate not available for #{to_currency}."<br> return nil<br> end<br>end<br><br>def main<br> puts "Welcome to Currency Converter"<br> print "Enter the amount: "<br> amount = gets.chomp.to_f<br><br> print "Enter the currency you're converting from (e.g., USD, EUR, GBP): "<br> from_currency = gets.chomp.upcase<br><br> print "Enter the currency you're converting to (e.g., USD, EUR, GBP): "<br> to_currency = gets.chomp.upcase<br><br> converted_amount = convert_currency(amount, from_currency, to_currency)<br> if converted_amount<br> puts "#{amount} #{from_currency} is equivalent to #{converted_amount} #{to_currency}."<br> else<br> puts "Failed to convert currency. Please try again."<br> end<br>end<br><br></code><button class="btn btn-primary" type="button">download file</button></div>
                             </div>
                         </div>
                     </div>
@@ -182,7 +183,7 @@
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
+                    <div class="text-center my-auto copyright"><span>Copyright © Albert Intelligence 2024</span></div>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

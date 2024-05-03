@@ -1,4 +1,4 @@
-import { get_non_terminals } from './ebnf_parser.js';
+import { get_non_terminals, get_production_rule } from './ebnf_parser.js';
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -44,10 +44,15 @@ function addNewStatementTable() {
         const collapsibleID = `${rowID}_collapsible`;
         const collapsibleElement = document.getElementById(collapsibleID);
         const selectedOption = selectElement.options[selectElement.selectedIndex].text;
-        console.log('ASD'+selectedOption)
-    
+      
         if (collapsibleElement) {
-          collapsibleElement.querySelector('td').innerHTML = '<code>' + 'requre' + '</code>';
+          get_production_rule(selectedOption, 'ruby')
+            .then(productionRule => {
+              collapsibleElement.querySelector('td').innerText = ' ' + productionRule + ' ';
+            })
+            .catch(error => {
+              console.error('Error fetching production rule:', error);
+            });
         }
       });
 
@@ -63,7 +68,7 @@ function addNewStatementTable() {
     const deleteButton = document.createElement('a');
     deleteButton.classList.add("del-row");
     const deleteIcon = document.createElement('i');
-    deleteIcon.classList.add("fas", "fa-trash");
+    deleteIcon.classList.add("fas", "fa-trash", "text-danger");
     deleteIcon.style.fontSize = "20px";
     deleteIcon.style.cursor = "pointer";
     deleteButton.appendChild(deleteIcon);
