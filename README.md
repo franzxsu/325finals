@@ -8,4 +8,6 @@ https://omrelli.ug/nearley-playground/
 
 USE https://highlightjs.org/ THIS LATER
 
+table cell color depending on validity
+
 ```

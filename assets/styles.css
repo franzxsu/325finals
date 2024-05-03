@@ -4,3 +4,6 @@
     -webkit-text-select: none;
     -webkit-user-select: none;
  }
+ code{
+    color: white;
+ }

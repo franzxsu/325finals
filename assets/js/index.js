@@ -32,7 +32,25 @@ function addNewStatementTable() {
     defaultOption.selected = true;
     selectElement.appendChild(defaultOption);
     statementCell.appendChild(selectElement);
-  
+
+    //remove event listener on select
+    selectElement.addEventListener('click', function(event) {
+        event.stopPropagation();
+      });
+
+    //event listener on select
+    selectElement.addEventListener('change', function() {
+        const rowID = newRow.id;
+        const collapsibleID = `${rowID}_collapsible`;
+        const collapsibleElement = document.getElementById(collapsibleID);
+        const selectedOption = selectElement.options[selectElement.selectedIndex].text;
+        console.log('ASD'+selectedOption)
+    
+        if (collapsibleElement) {
+          collapsibleElement.querySelector('td').innerHTML = '<code>' + 'requre' + '</code>';
+        }
+      });
+
     // Add event listener to statement cell for collapsible
     statementCell.addEventListener('click', function() {
       toggleCollapsibleContent(newRow.id);
@@ -110,11 +128,11 @@ function addNewStatementTable() {
     const row = document.getElementById(uniqueID);
     const collapsible = document.createElement('tr');
     collapsible.id = `${uniqueID}_collapsible`;
-    collapsible.classList.add('collapsible');
+    collapsible.classList.add('collapsible', 'bg-dark');
     collapsible.style.display = 'none';
     const cell = document.createElement('td');
     cell.colSpan = row.cells.length;
-    cell.innerHTML = '<code>' + uniqueID +' </code>';
+    cell.innerHTML = '<code>' + '//please choose a statement...' + '</code>';
     collapsible.appendChild(cell);
     row.parentNode.insertBefore(collapsible, row.nextSibling);
   }
