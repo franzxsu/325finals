@@ -188,16 +188,15 @@ function updateOutput() {
     
     document.getElementById("codebase").innerHTML = outputString;
 }
-function update_tabled(id, string){
-    console.log(id, string)
-    console.log('HIHIHI')
-}
+
 
 function updateStructBuilder(id, string) {
+    let tempIndex = 0;
     const body = document.getElementById('structInputBox');
     const regex = /&lt;([^&]+)&gt;/g;
-    body.innerHTML = string.replace(regex, (_, capturedString, index) => {
-        return `<input type="text" placeholder="${capturedString}" class="form-control-sm" style="width: auto;" data-index="${index}" data-expression="${capturedString}" id="${capturedString}_${id}_${index}"/>`;
+    body.innerHTML = string.replace(regex, (_, capturedString) => {
+        const index = tempIndex++;
+        return `<input type="text" placeholder="${capturedString}" class="form-control-sm" data-index=${index} style="width: auto;" data-expression="${capturedString}" id="${id}"/>`;
     });
 }
 
@@ -212,10 +211,15 @@ document.getElementById('saveStructBtn').addEventListener('click', function(){
         const index = input.getAttribute('data-index');
         const value = input.value;
         console.log(`ID: ${id}, Captured String: ${capturedString}, Index: ${index}, Value: ${value}`);
+        console.log("WILL REPLACE");
+        update_tabled(id, index, capturedString, value);
     });
 });
 
-
+function update_tabled(id, index, toReplace, replaceWith){
+    const s = document.querySelector('#' + id + '_collapsible td');
+    console.log(s.innerHTML)
+}
 
 
 
