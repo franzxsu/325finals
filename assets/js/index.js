@@ -196,18 +196,22 @@ function update_tabled(id, string){
 function updateStructBuilder(id, string) {
     const body = document.getElementById('structInputBox');
     const regex = /&lt;([^&]+)&gt;/g;
-    body.innerHTML = string.replace(regex, (_, capturedString) => {
-        return `<input type="text" data-expression="${capturedString}" id=${capturedString}_${id}/>`;
+    body.innerHTML = string.replace(regex, (_, capturedString, index) => {
+        return `<input type="text" placeholder="${capturedString}" class="form-control-sm" style="width: auto;" data-index="${index}" data-expression="${capturedString}" id="${capturedString}_${id}_${index}"/>`;
     });
 }
 
+//TODO UPDATE TABLED
 document.getElementById('saveStructBtn').addEventListener('click', function(){
     const inputs = document.querySelectorAll('#structInputBox input[type="text"]');
     inputs.forEach(input => {
+        //UPDATE MEEEEEE
+        //form control on save
         const id = input.getAttribute('id');
         const capturedString = input.getAttribute('data-expression');
+        const index = input.getAttribute('data-index');
         const value = input.value;
-        console.log(`ID: ${id}, Captured String: ${capturedString}, Value: ${value}`);
+        console.log(`ID: ${id}, Captured String: ${capturedString}, Index: ${index}, Value: ${value}`);
     });
 });
 
