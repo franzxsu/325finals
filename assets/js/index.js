@@ -6,7 +6,7 @@ document.getElementById("addStatementBtn").addEventListener("click", function() 
 });
 
 function addNewStatementTable() {
-    updateOutput()
+
     // Generate a unique ID for the new row
     const uniqueID = "row_" + Math.random().toString(36).substr(2, 9);
   
@@ -18,7 +18,7 @@ function addNewStatementTable() {
     const statementCell = document.createElement('td');
     statementCell.style.cursor = "pointer";
     statementCell.classList.add("statement-cell");
-    updateOutput()
+
     // Create select element
     const selectElement = document.createElement('select');
     selectElement.classList.add("form-select", "form-select-sm", "no-highlight", "statement-selects");
@@ -33,12 +33,11 @@ function addNewStatementTable() {
     //remove event listener on select
     selectElement.addEventListener('click', function(event) {
         event.stopPropagation();
-        updateOutput()
       });
 
     //event listener on select
-    selectElement.addEventListener('change', function() {
-        updateOutput()
+    selectElement.addEventListener('click', function() {
+
         const rowID = newRow.id;
         const collapsibleID = `${rowID}_collapsible`;
         const collapsibleElement = document.getElementById(collapsibleID);
@@ -48,14 +47,14 @@ function addNewStatementTable() {
           get_production_rule(selectedOption, 'ruby')
             .then(productionRule => {
               collapsibleElement.querySelector('td').innerText = ' ' + productionRule + ' ';
+              updateOutput()
             })
             .catch(error => {
               console.error('Error fetching production rule:', error);
             });
         }
-        updateOutput()
+        
       });
-      updateOutput()
     // Add event listener to statement cell for collapsible
     statementCell.addEventListener('click', function() {
         // Toggle collapsible content
@@ -118,6 +117,7 @@ function addNewStatementTable() {
       }
   
       rowToRemove.remove();
+      updateOutput();
 
     });
   
@@ -192,28 +192,24 @@ function update_tabled(id, string){
     console.log(id, string)
     console.log('HIHIHI')
 }
-function updateStructBuilder(id = 0, string) {
+
+function updateStructBuilder(id, string) {
     const body = document.getElementById('structInputBox');
-    const regex = /&lt;([^&]+)&gt;/g; // Regular expression to match &lt;...&gt;
+    const regex = /&lt;([^&]+)&gt;/g;
     body.innerHTML = string.replace(regex, (_, capturedString) => {
-        return `<input type="text" data-expression="${capturedString}" />`;
+        return `<input type="text" data-expression="${capturedString}" id=${capturedString}_${id}/>`;
     });
+}
 
-    // Add event listener to the input boxes
-    const inputs = body.querySelectorAll('input[data-expression]');
+document.getElementById('saveStructBtn').addEventListener('click', function(){
+    const inputs = document.querySelectorAll('#structInputBox input[type="text"]');
     inputs.forEach(input => {
-        input.addEventListener('input', () => {
-            const expression = input.getAttribute('data-expression');
-            inputListener(expression, input.value);
-        });
+        const id = input.getAttribute('id');
+        const capturedString = input.getAttribute('data-expression');
+        const value = input.value;
+        console.log(`ID: ${id}, Captured String: ${capturedString}, Value: ${value}`);
     });
-}
-
-// Function to execute when input changes
-function inputListener(expression, value) {
-    // Your custom logic here
-    console.log("Input changed for expression", expression, ":", value);
-}
+});
 
 
 
