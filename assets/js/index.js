@@ -84,11 +84,6 @@ function addNewStatementTable() {
                 updateStructBuilder(newRow.id, innerHTMLValue);
             }
         }
-        
-        // Update struct builder
-        
-        
-        // Update output
         updateOutput();
     });
     
@@ -200,26 +195,54 @@ function updateStructBuilder(id, string) {
     });
 }
 
-//TODO UPDATE TABLED
+
+
 document.getElementById('saveStructBtn').addEventListener('click', function(){
+    let updatesArray = [];
     const inputs = document.querySelectorAll('#structInputBox input[type="text"]');
     inputs.forEach(input => {
-        //UPDATE MEEEEEE
-        //form control on save
         const id = input.getAttribute('id');
         const capturedString = input.getAttribute('data-expression');
         const index = input.getAttribute('data-index');
         const value = input.value;
         console.log(`ID: ${id}, Captured String: ${capturedString}, Index: ${index}, Value: ${value}`);
-        console.log("WILL REPLACE");
-        update_tabled(id, index, capturedString, value);
-    });
-});
 
-function update_tabled(id, index, toReplace, replaceWith){
-    const s = document.querySelector('#' + id + '_collapsible td');
-    console.log(s.innerHTML)
+        updatesArray.push({ id, index, capturedString, value });
+    });
+
+    console.log(updatesArray)
+    update_tabled(updatesArray);
+    
+});
+function update_tabled(updatesArray) {
+
+    let tdToReplace = document.querySelector('#' + updatesArray[0].id + '_collapsible td');
+    let htmlContent = tdToReplace.innerHTML;
+
+    console.log(htmlContent)
+    function replacePlaceholders(content, updatesArray) {
+        let regex = /&lt;([^&]+)&gt;/g;
+        let counter = 0;
+        let replacedContent = content.replace(regex, function(match, placeholder) {
+            let value = updatesArray[counter].value;
+            counter++;
+            return value;
+        });
+        console.log(replacedContent)
+        return replacedContent;
+    }
+    let replacedHtmlContent = replacePlaceholders(htmlContent, updatesArray);
+    tdToReplace.innerHTML = replacedHtmlContent;
+
+    updateOutput()
 }
+
+
+
+
+
+
+
 
 
 
