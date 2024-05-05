@@ -1,0 +1,65 @@
+<program> ::= { <statement> }
+
+<statement> ::= <assignment_statement>
+             | <print_statement>
+             | <conditional_statement>
+             | <loop_statement>
+             | <function_definition>
+             | <expression>
+
+<assignment_statement> ::= <identifier> <- <expression>
+
+<print_statement> ::= print(<expression>)
+
+<conditional_statement> ::= if (<expression>) <statement> [else <statement>]
+                           | if (<expression>) <statement> [else if (<expression>) <statement>]...
+
+<loop_statement> ::= while (<expression>) <statement>
+                   | for (<identifier> in <range>) <statement>
+                   | repeat <statement> until (<expression>)
+
+<function_definition> ::= function(<parameter_list>) { <statement> }
+
+<expression> ::= <identifier>
+              | <number_literal>
+              | <string_literal>
+              | <boolean_literal>
+              | <function_call>
+              | <binary_operation>
+              | <unary_operation>
+
+<parameter_list> ::= <identifier> { , <identifier> }
+
+<function_call> ::= <identifier>(<argument_list>)
+
+<argument_list> ::= <expression> { , <expression> }
+
+<binary_operation> ::= <expression> <binary_operator> <expression>
+
+<binary_operator> ::= + | - | * | / | ^ | == | != | < | <= | > | >= | && | ||
+
+<unary_operation> ::= <unary_operator> <expression>
+
+<unary_operator> ::= ! | -
+
+<identifier> ::= <letter> { <letter> | <digit> | '.' }
+
+<number_literal> ::= <digit> { <digit> }
+
+<string_literal> ::= " { <character> } "
+
+<boolean_literal> ::= TRUE | FALSE
+
+<range> ::= <number_literal> : <number_literal>
+
+<letter> ::= a | b | ... | z | A | B | ... | Z
+
+<digit> ::= 0 | 1 | ... | 9
+
+<character> ::= <letter> | <digit> | <symbol> | <whitespace> | <special_character>
+
+<symbol> ::= + | - | * | / | = | < | > | & | ‘|’ | @ | # | $ | % | ^ | ! | ? | ~ | `
+
+<whitespace> ::= ' ' | \t | \n | \r
+
+<special_character> ::= '(' | ')' | '[' | ']' | '{' | '}' | '"' | "'" | ',' | ';' | '.' | '_' | '-' | '|' | '\\' | '/' | '<' | '>'

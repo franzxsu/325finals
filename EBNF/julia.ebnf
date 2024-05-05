@@ -1,0 +1,77 @@
+<IfElseStatement> ::= “if” <BooleanExpression> <Block> [ { “elseif” <BooleanExpression> <Block> } “else” <Block> ]  “end”
+
+<Block> ::= [ <Statement> { <Statement> } ]
+
+<Statement> ::= <VariableAssignment> | <FunctionCall> | <IfElseStatement> | <LoopStatement> | <ReturnStatement>
+
+<Expression> ::= <BooleanExpression>
+
+<BooleanExpression> ::= <ComparisonExpression> { <BooleanOperators>, <ComparisonExpression>} 
+
+<ComparisonExpression> ::= <Term> { <ComparisonOperators> <Term> }
+
+REPEATED EVALUATIONS
+<LoopStatement> ::= "while" <ComparisonExpression> <Block> "end" | "for" <Identifier>  { ( "in" | "∈" ) <Container> } <Block> "end" 
+
+<Container> ::= <Iterable> | <Range>
+
+<Iterable> ::= <Array> | <Tuple>
+
+<Range> ::= <Term> ":" <Term>
+
+ASSIGNMENT
+<FunctionCall> ::= <Identifier> "(" [ <Expression> { "," <Expression } ] ")"
+
+<CollectionsAssignment> ::= [ <Scope> ] <Identifier> {"," <Identifier>}  "=" <Collections> { "," <Collections> }
+
+<VariableAssignment> ::= [ <Scope> ] <Identifier> {"," <Identifier>}  "=" <Term> { "," <Term> }
+
+<Identifier> ::= ( <Letter> { <Letter> | <Digit> | "_" } | "_" <Letter> { <Letter> | <Digit> | "_" } )
+
+<Term> ::= <Factor> { ( <ArithmeticOperator> | <ModuloOperator> ) <Factor> }
+
+<Factor> ::= <Primary> { <PowerOperator>  <Primary> }
+
+<Primary> ::= <Number> | <String> | <Boolean> | <Identifier> | "(" <Expression> ")"
+
+<Collections> ::= <Dictionary> | <Tuple> | <Array>
+
+<Dictionary> ::= "{" [ <KeyValuePairList> ] "}"
+
+<KeyValuePairList> ::= <KeyValuePair> { "," <KeyValuePair> }
+
+<KeyValuePair> ::= <Term> "=>" <Term>
+
+<Tuple> ::= "(" [ <TermsList> ] ")"
+
+<Array> ::= "[" [ <TermsList> ] "]"
+
+<TermsList> ::= <Term> { "," <Term> }
+
+<Number> ::= <Integer> | <Float>
+
+<Integer> ::= <Digit> { <Digit> }
+
+<Float> ::= <Digit> { <Digit> } [ "." { <Digit> } ]
+
+<String> ::= " ' " { <Character> } " ' " | ' " ' { <Character> } ' " '
+
+<ArithmeticOperators> ::= ("+" | "-" | "*" | "/")
+
+<PowerOperator> ::= "^"
+
+<ModuloOperator> ::= "%"
+
+<BooleanOperators> ::= "&&" | "||" | "!"
+
+<ComparisonOperators> ::= "<" | ">" | "<=" | ">=" | "==" | "!="
+
+<BooleanStates> ::= "true" | "false"
+
+<Letter> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+
+<Digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<Character> ::= <Letter> | <Digit> | …
+
+<Scope> ::= "global" | "local"
