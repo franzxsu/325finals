@@ -4,6 +4,21 @@
  * this function returns an array of a given rule's non-terminal production rules.
  */
 export function get_non_terminals(rule, language) {
+
+    if(language=="/index.html"){
+        language = "ruby"
+    }
+    else if(language=="/julia.html"){
+        language = "julia"
+    }
+    else if(language=="/r.html"){
+        language = "r"
+    }
+    else{
+        console.error(`EBNF FOR ${language} NOT FOUND`);
+        language = NaN
+    }
+
     const filePath = `../../EBNF/${language}.ebnf`;
 
     return fetch(filePath)

@@ -1,18 +1,13 @@
 <program> ::= { <statement> }
 
-<statement> ::= <assignment_statement>
-             | <print_statement>
-             | <conditional_statement>
-             | <loop_statement>
-             | <function_definition>
-             | <expression>
+<statement> ::= <assignment_statement> | <print_statement> | <conditional_statement> | <loop_statement> | <function_definition> | <expression>
 
 <assignment_statement> ::= <identifier> <- <expression>
 
 <print_statement> ::= print(<expression>)
 
 <conditional_statement> ::= if (<expression>) <statement> [else <statement>]
-                           | if (<expression>) <statement> [else if (<expression>) <statement>]...
+                        | if (<expression>) <statement> [else if (<expression>) <statement>]...
 
 <loop_statement> ::= while (<expression>) <statement>
                    | for (<identifier> in <range>) <statement>

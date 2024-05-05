@@ -1,5 +1,6 @@
 import { get_non_terminals, get_production_rule } from './ebnf_parser.js';
-
+const url = window.location.pathname;
+    console.log("URL IS: " +url);
 //ADD STATEMENT BUTTON
 document.getElementById("addStatementBtn").addEventListener("click", function() {
     addNewStatementTable();
@@ -129,9 +130,9 @@ function addNewStatementTable() {
     if (!collapsible || !collapsible.classList.contains('collapsible')) {
       createCollapsible(uniqueID);
     }
-
+    
     // Populate select with options
-    get_non_terminals("statement", "ruby")
+    get_non_terminals("statement", url)
       .then(statements => {
         statements.forEach(statement => {
           const option = document.createElement('option');

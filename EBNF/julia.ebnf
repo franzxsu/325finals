@@ -1,8 +1,8 @@
-<IfElseStatement> ::= “if” <BooleanExpression> <Block> [ { “elseif” <BooleanExpression> <Block> } “else” <Block> ]  “end”
+<IfElseStatement> ::= "if" <BooleanExpression> <Block> [ { "elseif" <BooleanExpression> <Block> } "else" <Block> ]  "end"
 
-<Block> ::= [ <Statement> { <Statement> } ]
+<Block> ::= [ <statement> { <statement> } ]
 
-<Statement> ::= <VariableAssignment> | <FunctionCall> | <IfElseStatement> | <LoopStatement> | <ReturnStatement>
+<statement> ::= <VariableAssignment> | <FunctionCall> | <IfElseStatement> | <LoopStatement> | <ReturnStatement>
 
 <Expression> ::= <BooleanExpression>
 
@@ -10,7 +10,6 @@
 
 <ComparisonExpression> ::= <Term> { <ComparisonOperators> <Term> }
 
-REPEATED EVALUATIONS
 <LoopStatement> ::= "while" <ComparisonExpression> <Block> "end" | "for" <Identifier>  { ( "in" | "∈" ) <Container> } <Block> "end" 
 
 <Container> ::= <Iterable> | <Range>
@@ -19,7 +18,6 @@ REPEATED EVALUATIONS
 
 <Range> ::= <Term> ":" <Term>
 
-ASSIGNMENT
 <FunctionCall> ::= <Identifier> "(" [ <Expression> { "," <Expression } ] ")"
 
 <CollectionsAssignment> ::= [ <Scope> ] <Identifier> {"," <Identifier>}  "=" <Collections> { "," <Collections> }
