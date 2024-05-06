@@ -36,19 +36,22 @@ function addNewStatementTable() {
             .then(productionRule => {
                 console.log(productionRule);
                 const parentRow = this.closest('tr');
-                const oldSubTable = parentRow.subTable;
-                if (oldSubTable) {
-                    oldSubTable.remove();
+                const oldSubTables = parentRow.subTables;
+                if (oldSubTables) {
+                    oldSubTables.forEach(subTable => {
+                        subTable.remove(); // Remove each subtable cell individually
+                    });
                 }
-
-                const subTable = addSubTable(productionRule, parentRow.id);
-                parentRow.subTable = subTable; // Store the reference to the new subtable
+    
+                const subTables = addSubTables(productionRule, parentRow.id);
+                parentRow.subTables = subTables; // Store the reference to the new subtables
                 updateOutput();
             })
             .catch(error => {
                 console.error('Error fetching production rule:', error);
             });
     });
+    
     
 
     const deleteCell = document.createElement('td');
@@ -64,12 +67,16 @@ function addNewStatementTable() {
 
     deleteIcon.addEventListener('click', function() {
         const rowToRemove = deleteIcon.closest('tr');
-        if (rowToRemove.subTable) {
-            rowToRemove.subTable.remove();
+        const subTablesToRemove = rowToRemove.subTables; // Get the array of subtables associated with the row
+        if (subTablesToRemove) {
+            subTablesToRemove.forEach(subTable => {
+                subTable.remove(); // Remove each subtable associated with the row
+            });
         }
         rowToRemove.remove();
         updateOutput();
     });
+    
 
     newRow.appendChild(statementCell);
     newRow.appendChild(deleteCell);
@@ -90,53 +97,122 @@ function addNewStatementTable() {
         });
 }
 
-function addSubTable(rule, statementID) {
-    console.log(rule);
-
-    /// Regular expression to match strings within < > brackets
-    const regex = /<([^>]*)>/g;
-
-    // Match all occurrences of strings within < > brackets
-    let match;
-    while ((match = regex.exec(rule)) !== null) {
-    console.log(match[0]);
-    }
-    
+function addSubTables(rule, statementID) {
     const statementTable = document.getElementById(statementID);
-
+    const subtables = [];
     const subTableCell = document.createElement('td');
     subTableCell.colSpan = 2;
 
     const nestedTable = document.createElement('table');
 
-    const nestedRow = document.createElement('tr');
-    const nestedCell = document.createElement('td');
-    nestedCell.textContent = rule;
-    nestedRow.appendChild(nestedCell);
-    nestedTable.appendChild(nestedRow);
+    // Split the rule text into segments separated by newline characters
+    const segments = rule.split(/\\n/);
+
+    // Iterate through each segment
+    segments.forEach(segment => {
+        const nestedRow = document.createElement('tr');
+        const nestedCell = document.createElement('td');
+
+        // Use regular expression to identify placeholders enclosed within angle brackets
+        const regex = /<([A-Za-z0-9]+)>/g;
+        let lastIndex = 0;
+        let match;
+
+        function createInputField(placeholderName) {
+            // Create the appropriate input field based on whether the placeholder is a terminal
+            if (isTerminal(placeholderName)) {
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.placeholder = placeholderName;
+                return inputField;
+            } else {
+                // If the placeholder is not a terminal, create a dropdown
+                const selectField = document.createElement('select');
+                get_non_terminals(placeholderName, url)
+                    .then(choices => {
+                        choices.forEach(choice => {
+                            const option = document.createElement('option');
+                            option.textContent = choice;
+                            selectField.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching choices:', error);
+                    });
+            
+                selectField.selectedIndex = 0;
+                return selectField;
+            }
+        }
+        
+        while ((match = regex.exec(segment)) !== null) {
+            // Create a text node for the plaintext text before the placeholder
+            const textBefore = segment.substring(lastIndex, match.index);
+            if (textBefore) {
+                nestedCell.appendChild(document.createTextNode(textBefore));
+            }
+        
+            // Extract the placeholder without angle brackets
+            const placeholderName = match[1];
+        
+            // Create the appropriate input field
+            const inputField = createInputField(placeholderName);
+        
+            // Append input field to the cell
+            nestedCell.appendChild(inputField);
+        
+            lastIndex = regex.lastIndex;
+        }
+
+        const textAfter = segment.substring(lastIndex);
+        if (textAfter) {
+            nestedCell.appendChild(document.createTextNode(textAfter));
+        }
+
+        nestedRow.appendChild(nestedCell);
+        nestedTable.appendChild(nestedRow);
+    });
+
     subTableCell.appendChild(nestedTable);
-
     statementTable.parentNode.insertBefore(subTableCell, statementTable.nextSibling);
-    
-    return subTableCell;
+
+    subtables.push(subTableCell);
+    return subtables;
 }
 
-function addSubSubTable(parentTable) {
 
-    const subSubTable = document.createElement('table');
-    subSubTable.style.border = "1px solid red";
-
-    const subSubRow = document.createElement('tr');
-    const subSubCell = document.createElement('td');
-    subSubCell.textContent = "Sub-Sub Table Content";
-    subSubRow.appendChild(subSubCell);
-    subSubTable.appendChild(subSubRow);
-
-
-    const nestedRow = parentTable.querySelector('tr');
-    const nestedCell = nestedRow.querySelector('td');
-    nestedCell.appendChild(subSubTable);
+function isTerminal(rule) {
+    const terminals = ['filename', 'identifier', 'condition'];
+    return terminals.includes(rule);
 }
+
+
+// function addSubTables(rule, statementID) {
+//     console.log(rule);
+//     const subtables = [];
+//     const regex = /(?:^|>)([^<]*<([^>]*)>)/g;
+
+//     const statementTable = document.getElementById(statementID);
+//     let match;
+//     while ((match = regex.exec(rule)) !== null) {
+//         const x = match[1]; // Use match[1] to capture the substring excluding the < and >
+//         const newRow = document.createElement('tr');
+//         const subTableCell = document.createElement('td');
+//         subTableCell.colSpan = 2;
+//         const nestedTable = document.createElement('table');
+//         const nestedRow = document.createElement('tr');
+//         const nestedCell = document.createElement('td');
+//         nestedCell.textContent = x;
+//         nestedRow.appendChild(nestedCell);
+//         nestedTable.appendChild(nestedRow);
+//         subTableCell.appendChild(nestedTable);
+//         newRow.appendChild(subTableCell);
+//         statementTable.parentNode.insertBefore(newRow, statementTable.nextSibling);
+//         subtables.push(newRow);
+//     }
+//     return subtables;
+// }
+
 
 function updateOutput() {
     var tdElements = document.querySelectorAll('td[colspan="2"]');

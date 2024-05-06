@@ -4,7 +4,7 @@
 
 <import_statement> ::= require '<filename>'
 
-<print_statement> ::= puts <expression> ;
+<print_statement> ::= puts <identifier> ;
 
 <variable_declaration> ::= <identifier> = <expression> ;
 
@@ -28,7 +28,7 @@
 
 <loop_statement> ::= loop <statement> end ;
 
-<method_definition> ::= def <identifier> '(' [<parameters>] ')' <statement> end ;
+<method_definition> ::= def <identifier> '(' [<parameters>] ')' \n <statement> \n end ;
 
 
 <class_definition> ::= class <identifier> <class_body> end ;
