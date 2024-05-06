@@ -196,8 +196,6 @@ function updateStructBuilder(id, string) {
     });
 }
 
-
-
 document.getElementById('saveStructBtn').addEventListener('click', function(){
     let updatesArray = [];
     const inputs = document.querySelectorAll('#structInputBox input[type="text"]');
@@ -237,18 +235,3 @@ function update_tabled(updatesArray) {
 
     updateOutput()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
