@@ -23,28 +23,34 @@ function addNewStatementTable() {
     defaultOption.selected = true;
     selectElement.appendChild(defaultOption);
     statementCell.appendChild(selectElement);
-    
-    updateOutput()
+
+    updateOutput();
     selectElement.addEventListener('click', function(event) {
         event.stopPropagation();
-      });
+    });
 
-      //happens when you click on an option on the drop down
+    //happens when you click on an option on the drop down
     selectElement.addEventListener('change', function() {
         const selectedOption = selectElement.options[selectElement.selectedIndex].text;
-          get_production_rule(selectedOption, 'ruby')
+        get_production_rule(selectedOption, 'ruby')
             .then(productionRule => {
-              console.log(productionRule)
-              //for every terminal new table
-                addSubTable(productionRule, uniqueID)
-                updateOutput()
+                console.log(productionRule);
+                const parentRow = this.closest('tr');
+                const oldSubTable = parentRow.subTable;
+                if (oldSubTable) {
+                    oldSubTable.remove();
+                }
+
+                const subTable = addSubTable(productionRule, parentRow.id);
+                parentRow.subTable = subTable; // Store the reference to the new subtable
+                updateOutput();
             })
             .catch(error => {
-              console.error('Error fetching production rule:', error);
+                console.error('Error fetching production rule:', error);
             });
+    });
     
-      });
-    
+
     const deleteCell = document.createElement('td');
     deleteCell.classList.add("text-center");
     const deleteButton = document.createElement('a');
@@ -57,11 +63,14 @@ function addNewStatementTable() {
     deleteCell.appendChild(deleteButton);
 
     deleteIcon.addEventListener('click', function() {
-      const rowToRemove = deleteIcon.closest('tr');
-      rowToRemove.remove();
-      updateOutput();
+        const rowToRemove = deleteIcon.closest('tr');
+        if (rowToRemove.subTable) {
+            rowToRemove.subTable.remove();
+        }
+        rowToRemove.remove();
+        updateOutput();
     });
-  
+
     newRow.appendChild(statementCell);
     newRow.appendChild(deleteCell);
 
@@ -69,20 +78,32 @@ function addNewStatementTable() {
     tableBody.appendChild(newRow);
 
     get_non_terminals("statement", url)
-      .then(statements => {
-        statements.forEach(statement => {
-          const option = document.createElement('option');
-          option.textContent = statement;
-          selectElement.appendChild(option);
+        .then(statements => {
+            statements.forEach(statement => {
+                const option = document.createElement('option');
+                option.textContent = statement;
+                selectElement.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }
+}
 
-  function addSubTable(rule, uniqueID) {
-    const newRow = document.createElement('tr');
+function addSubTable(rule, statementID) {
+    console.log(rule);
+
+    /// Regular expression to match strings within < > brackets
+    const regex = /<([^>]*)>/g;
+
+    // Match all occurrences of strings within < > brackets
+    let match;
+    while ((match = regex.exec(rule)) !== null) {
+    console.log(match[0]);
+    }
+    
+    const statementTable = document.getElementById(statementID);
+
     const subTableCell = document.createElement('td');
     subTableCell.colSpan = 2;
 
@@ -94,12 +115,29 @@ function addNewStatementTable() {
     nestedRow.appendChild(nestedCell);
     nestedTable.appendChild(nestedRow);
     subTableCell.appendChild(nestedTable);
-    newRow.appendChild(subTableCell);
 
-    const tableBody = document.getElementById('tableBody');
-    tableBody.appendChild(newRow);
-
+    statementTable.parentNode.insertBefore(subTableCell, statementTable.nextSibling);
+    
+    return subTableCell;
 }
+
+function addSubSubTable(parentTable) {
+
+    const subSubTable = document.createElement('table');
+    subSubTable.style.border = "1px solid red";
+
+    const subSubRow = document.createElement('tr');
+    const subSubCell = document.createElement('td');
+    subSubCell.textContent = "Sub-Sub Table Content";
+    subSubRow.appendChild(subSubCell);
+    subSubTable.appendChild(subSubRow);
+
+
+    const nestedRow = parentTable.querySelector('tr');
+    const nestedCell = nestedRow.querySelector('td');
+    nestedCell.appendChild(subSubTable);
+}
+
 function updateOutput() {
     var tdElements = document.querySelectorAll('td[colspan="2"]');
     var outputString = "";
