@@ -1,5 +1,5 @@
 import { get_non_terminals, get_production_rule } from './ebnf_parser.js';
-
+const url = window.location.pathname
 console.log(window.location.pathname);
 
 document.getElementById("addStatementBtn").addEventListener("click", function() {
@@ -35,8 +35,9 @@ function addNewStatementTable() {
           get_production_rule(selectedOption, 'ruby')
             .then(productionRule => {
               console.log(productionRule)
-                addNewSubTable()
-              updateOutput()
+              //for every terminal new table
+                addSubTable(productionRule, uniqueID)
+                updateOutput()
             })
             .catch(error => {
               console.error('Error fetching production rule:', error);
@@ -78,9 +79,27 @@ function addNewStatementTable() {
       .catch(error => {
         console.error('Error:', error);
       });
-
   }
-  
+
+  function addSubTable(rule, uniqueID) {
+    const newRow = document.createElement('tr');
+    const subTableCell = document.createElement('td');
+    subTableCell.colSpan = 2;
+
+    const nestedTable = document.createElement('table');
+
+    const nestedRow = document.createElement('tr');
+    const nestedCell = document.createElement('td');
+    nestedCell.textContent = rule;
+    nestedRow.appendChild(nestedCell);
+    nestedTable.appendChild(nestedRow);
+    subTableCell.appendChild(nestedTable);
+    newRow.appendChild(subTableCell);
+
+    const tableBody = document.getElementById('tableBody');
+    tableBody.appendChild(newRow);
+
+}
 function updateOutput() {
     var tdElements = document.querySelectorAll('td[colspan="2"]');
     var outputString = "";
